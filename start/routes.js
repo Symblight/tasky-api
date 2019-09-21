@@ -17,10 +17,6 @@
 const Route = use('Route')
 const User = use('App/Models/User');
 
-Route.get('/', () => {
-  return { greeting: 'Hello world in JSON' }
-})
-
 Route.group(() => {
   Route.get('login', 'UserController.get')
   Route.delete('logout', 'UserController.logout')

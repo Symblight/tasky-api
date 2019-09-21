@@ -1,6 +1,7 @@
 'use strict'
 
 const User = use('App/Models/User');
+const Hash = use('Hash');
 
 class UserController {
   async login({ request, response, auth }) {
@@ -9,6 +10,7 @@ class UserController {
     if (auth.user) {
       return auth.user;
     }
+    console.log("password",  password)
 
     try {
         await auth
@@ -17,7 +19,7 @@ class UserController {
 
         return auth.user;
     } catch (e) {
-        return response.error(401, 'invalid email or password');
+        return response.json({ message: 'You are not registered!' });
     }
   }
 
