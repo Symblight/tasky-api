@@ -1,7 +1,8 @@
 'use strict'
 
 const User = use('App/Models/User');
-const Hash = use('Hash');
+const Mail = use('Mail')
+const Env = use('Env')
 
 class UserController {
   async login({ request, response, auth }) {
@@ -10,7 +11,6 @@ class UserController {
     if (auth.user) {
       return auth.user;
     }
-    console.log("password",  password)
 
     try {
         await auth
@@ -29,12 +29,14 @@ class UserController {
 
   async register({request, response}) {
     const payload = request.only(['email', 'password', 'username']);
+    const user = await User.create(payload);
 
-    const user = await User.create({
-        username: payload.username,
-        email: payload.email,
-        password: payload.password,
-    });
+    // await Mail.send('emails.welcome', user.toJSON(), (message) => {
+    //   message
+    //     .from('"Регистрация" <noreply@tasky.loc>')
+    //     .to(user.email)
+    //     .subject('Welcome to yardstick')
+    // })
 
     return await User.find(user.id);
   }
