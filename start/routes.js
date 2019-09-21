@@ -15,7 +15,19 @@
 
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use('Route')
+const User = use('App/Models/User');
 
 Route.get('/', () => {
   return { greeting: 'Hello world in JSON' }
 })
+
+Route.group(() => {
+  Route.get('login', 'UserController.get')
+  Route.delete('logout', 'UserController.logout')
+}).prefix('api/v1/user').middleware('auth');
+
+
+Route.group(() => {
+  Route.post('login', 'UserController.login')
+  Route.post('signup', 'UserController.register')
+}).prefix('api/v1/user')
