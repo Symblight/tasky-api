@@ -19,7 +19,7 @@ class UserController {
 
         return auth.user;
     } catch (e) {
-        return response.json({ message: 'You are not registered!' });
+        return response.status(401).send('You are not registered!');
     }
   }
 
