@@ -5,7 +5,7 @@ const Schema = use('Schema')
 
 class TasksSchema extends Schema {
   up () {
-    this.create('tasks', (table) => {
+    this.create('tasks', table => {
       table.increments()
       table.integer('id_list').unsigned().references('id').inTable('lists')
       table.string('title', 80)

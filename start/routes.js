@@ -15,12 +15,12 @@
 
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use('Route')
-const User = use('App/Models/User');
+const User = use('App/Models/User')
 
 Route.group(() => {
   Route.get('login', 'UserController.get')
   Route.delete('logout', 'UserController.logout')
-}).prefix('api/v1/user').middleware('auth');
+}).prefix('api/v1/user').middleware('auth')
 
 
 Route.group(() => {

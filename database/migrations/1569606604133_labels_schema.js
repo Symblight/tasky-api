@@ -5,7 +5,7 @@ const Schema = use('Schema')
 
 class LabelsSchema extends Schema {
   up () {
-    this.create('labels', (table) => {
+    this.create('labels', table => {
       table.increments()
       table.string('name', 80)
       table.string('color', 80)

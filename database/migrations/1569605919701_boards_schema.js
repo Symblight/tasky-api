@@ -5,7 +5,7 @@ const Schema = use('Schema')
 
 class BoardsSchema extends Schema {
   up () {
-    this.create('boards', (table) => {
+    this.create('boards', table => {
       table.increments()
       table.string('firstname', 80)
       table.boolean('private')
