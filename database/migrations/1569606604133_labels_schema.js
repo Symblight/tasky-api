@@ -9,6 +9,7 @@ class LabelsSchema extends Schema {
       table.increments()
       table.string('name', 80)
       table.string('color', 80)
+      table.boolean('removed').defaultTo(false)
       table.timestamps()
     })
   }

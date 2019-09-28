@@ -15,7 +15,6 @@
 
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use('Route')
-const User = use('App/Models/User')
 
 Route.group(() => {
   Route.get('login', 'UserController.get')
@@ -27,3 +26,10 @@ Route.group(() => {
   Route.post('login', 'UserController.login')
   Route.post('signup', 'UserController.register')
 }).prefix('api/v1/user')
+
+
+Route.group(() => {
+  Route.post('board', 'BoardController.createPrivate')
+  Route.get('board', 'BoardController.showByUser')
+  Route.get('board/all', 'BoardController.storeByPrivate')
+}).prefix('api/v1').middleware('auth')

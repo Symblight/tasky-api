@@ -9,7 +9,6 @@ class BoardsTeamsSchema extends Schema {
       table.increments()
       table.integer('id_team').unsigned().references('id').inTable('teams')
       table.integer('id_board').unsigned().references('id').inTable('boards')
-      table.integer('id_author').unsigned().references('id').inTable('users')
       table.timestamps()
     })
   }

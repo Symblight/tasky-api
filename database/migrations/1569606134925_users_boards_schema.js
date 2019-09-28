@@ -9,6 +9,7 @@ class UsersBoardsSchema extends Schema {
       table.increments()
       table.integer('id_user').unsigned().references('id').inTable('users')
       table.integer('id_board').unsigned().references('id').inTable('boards')
+      table.boolean('root')
       table.timestamps()
     })
   }

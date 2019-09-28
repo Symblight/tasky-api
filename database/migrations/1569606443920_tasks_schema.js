@@ -9,7 +9,7 @@ class TasksSchema extends Schema {
       table.increments()
       table.integer('id_list').unsigned().references('id').inTable('lists')
       table.string('title', 80)
-      table.boolean('closed')
+      table.boolean('removed').defaultTo(false)
       table.integer('position')
       table.timestamps()
     })

@@ -9,7 +9,6 @@ class TeamsSchema extends Schema {
       table.increments()
       table.string('title', 80)
       table.boolean('private')
-      table.integer('author_id').unsigned().references('id').inTable('users')
       table.timestamps()
     })
   }

@@ -21,22 +21,30 @@ class UserController {
     }
   }
 
-  async logout ({ auth }) {
-    await auth.logout()
+  async logout ({ response, auth }) {
+    try {
+      await auth.logout()
+      return response.status(200).send()
+    } catch (error) {
+      return response.status(500).send(error)
+    }
   }
 
-  async register ({ request }) {
-    const payload = request.only(['email', 'password', 'username'])
-    const user = await User.create(payload)
-
+  async register ({ response, request }) {
+    try {
+      const payload = request.only(['email', 'password', 'username', 'lastname', 'firstname'])
+      const user = await User.create(payload)
+      const currentUser = await User.find(user.id)
+      return response.status(201).json(currentUser)
+    } catch (error) {
+      return response.status(500).send(error)
+    }
     // await Mail.send('emails.welcome', user.toJSON(), (message) => {
     //   message
     //     .from('"Регистрация" <noreply@tasky.loc>')
     //     .to(user.email)
     //     .subject('Welcome to yardstick')
     // })
-    const currentUser = await User.find(user.id)
-    return currentUser
   }
 
   async get ({ auth, response }) {
