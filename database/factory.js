@@ -15,12 +15,10 @@
 const Factory = use('Factory')
 const Hash = use('Hash')
 
-Factory.blueprint('App/Models/User', async (faker) => {
-  return {
-    username: 'admin',
-    password: 'password',
-    email: 'admin@task.loc',
-    firstname: 'Vasya',
-    lastname: 'Pupkin',
-  }
-})
+Factory.blueprint('App/Models/User', async faker => ({
+  username: 'admin',
+  password: 'password',
+  email: 'admin@task.loc',
+  firstname: 'Vasya',
+  lastname: 'Pupkin'
+}))

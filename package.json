@@ -6,7 +6,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
-    "test": "node ace test"
+    "test": "node ace test",
+    "dev": "adonis serve --dev",
+    "eslint": "eslint --debug ./ --fix"
   },
   "keywords": [
     "adonisjs",
@@ -28,7 +30,11 @@
     "@adonisjs/session": "^1.0.29",
     "pg": "^7.12.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "eslint": "^6.4.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2"
+  },
   "autoload": {
     "App": "./app"
   }

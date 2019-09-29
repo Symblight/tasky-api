@@ -77,9 +77,7 @@ module.exports = {
   | the temporary path or absolute url to any location.
   |
   */
-  file: {
-    location: 'sessions'
-  },
+  file: { location: 'sessions' },
 
   /*
   |--------------------------------------------------------------------------

@@ -17,10 +17,10 @@ const Database = use('Database')
 class UserSeeder {
   async run () {
     const user = await Factory
-    .model('App/Models/User')
-    .create()
+      .model('App/Models/User')
+      .create()
 
-    console.log({ email: user.email, username: user.username})
+    console.log({ email: user.email, username: user.username })
   }
 }
 

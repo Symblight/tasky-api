@@ -94,7 +94,5 @@ module.exports = {
   | https://ethereal.email
   |
   */
-  ethereal: {
-    driver: 'ethereal'
-  }
+  ethereal: { driver: 'ethereal' }
 }

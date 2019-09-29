@@ -2,6 +2,7 @@
 
 const Hash = use('Hash')
 
+// eslint-disable-next-line no-multi-assign
 const UserHook = module.exports = {}
 
 /**
@@ -13,7 +14,7 @@ const UserHook = module.exports = {}
  *
  * @return {void}
  */
-UserHook.hashPassword = async (userInstance) => {
+UserHook.hashPassword = async userInstance => {
   if (userInstance.dirty.password) {
     userInstance.password = await Hash.make(userInstance.password)
   }
