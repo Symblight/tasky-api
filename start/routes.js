@@ -29,7 +29,23 @@ Route.group(() => {
 
 
 Route.group(() => {
-  Route.post('board', 'BoardController.createPrivate')
-  Route.get('board', 'BoardController.showByUser')
-  Route.get('board/all', 'BoardController.storeByPrivate')
-}).prefix('api/v1').middleware('auth')
+  Route.get('', 'BoardsController.storeByPrivate')
+}).prefix('api/v1/boards').middleware('auth')
+
+Route.group(() => {
+  Route.post('', 'BoardController.createPrivate')
+  Route.get(':id', 'BoardController.select')
+}).prefix('api/v1/board').middleware('auth')
+
+Route.group(() => {
+  Route.post('', 'ListController.createList')
+  Route.put(':id', 'ListController.editList')
+  Route.delete(':id', 'ListController.removeList')
+  Route.get('/all/:idBoard', 'ListController.store')
+}).prefix('api/v1/lists').middleware('auth')
+
+Route.group(() => {
+  Route.post('', 'CardController.createCard')
+  Route.put(':id', 'CardController.editCard')
+  Route.delete(':id', 'CardController.removeCard')
+}).prefix('api/v1/cards').middleware('auth')

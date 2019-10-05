@@ -8,9 +8,11 @@ class ListsSchema extends Schema {
     this.create('lists', table => {
       table.increments()
       table.integer('id_board').unsigned().references('id').inTable('boards')
+        .onDelete('CASCADE')
       table.string('title', 80)
       table.boolean('removed').defaultTo(false)
-      table.integer('position')
+      table.string('pos')
+      table.string('uuid', 180)
       table.timestamps()
     })
   }

@@ -10,6 +10,7 @@ class BoardsSchema extends Schema {
       table.string('title', 80)
       table.boolean('private')
       table.string('background', 180)
+      table.string('uuid', 180)
       table.boolean('removed').defaultTo(false)
       table.timestamps()
     })
