@@ -3,7 +3,12 @@
     "node": true
   },
   "parserOptions": {
-    "ecmaVersion": 2017
+    "sourceType": "module"
+  },
+  "ecmaFeatures": {
+    "modules": true,
+    "spread" : true,
+    "restParams" : true
   },
   "extends": "airbnb-base",
   "rules": {
