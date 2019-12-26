@@ -1,6 +1,7 @@
 'use strict'
 
 const Card = use('App/Models/Card')
+const Board = use('App/Models/Board')
 const Database = use('Database')
 
 const uniqid = require('uniqid')
@@ -12,7 +13,7 @@ const INITIAL_POSITION = 65535
 class CardController {
   async createCard ({ request, response, auth }) {
     try {
-      const fields = request.only(['idBoard', 'idList', 'data', 'pos'])
+      const fields = request.only(['idBoard', 'idList', 'data', 'pos', 'id_author'])
 
       const card = await Card.create({
         id_list: fields.idList,
@@ -20,8 +21,31 @@ class CardController {
         pos: fields.pos,
         uuid: uniqid()
       })
+      const board = await Board.findBy('uuid', fields.idBoard)
+
+      // await Database
+      //   .insert({ id_user: fields.id_author, id_board: board.id, root: true })
+      //   .into('users_boards')
+
+      // const user = await Database
+      //   .table('users')
+      //   .innerJoin('users_boards', 'users.id', 'users_boards.id_user')
+      //   .where({ id_board: board.id, id_user: fields.id_author })
+      //   .first()
+
+      await Database
+        .insert({ id_user: fields.id_author, id_card: card.id })
+        .into('cards_users')
+
+      const members = await Database
+        .table('users')
+        .innerJoin('cards_users', 'users.id', 'cards_users.id_user')
+        .where({ id_card: card.id })
+
       const created = await Card.find(card.id)
       created.pos = Number(created.pos)
+      created.labels = []
+      created.users = members
       broadcast(fields.idBoard, 'board:newCard', created)
       return response.status(201).send(created)
     } catch (e) {
@@ -117,10 +141,32 @@ class CardController {
           .insert({ id_card: card.id, id_label: color })
           .into('labels_cards')
         const targetLabel = await Database.table('labels_cards').where({ id_card: card.id, id_label: color }).first()
-        broadcast(idBoard, 'board:addLabelToCard', id)
+        broadcast(idBoard, 'board:addLabelToCard', { id, targetLabel })
         return response.status(200).send(targetLabel)
       }
       return response.status(200).send(label)
+    } catch (e) {
+      return response.status(500)
+    }
+  }
+
+  async index ({ params, response }) {
+    try {
+      const { id } = params
+      const card = await Card.findBy('uuid', id)
+      const labelsIds = await Database
+        .table('labels_cards')
+        .where({ id_card: card.id })
+
+      const listIds = labelsIds.map(label => label.id_label)
+
+
+      const labels = await Database
+        .from('labels')
+        .whereIn('id', [...listIds])
+      card.labels = labels
+      card.users = []
+      return response.status(200).send(card)
     } catch (e) {
       return response.status(500)
     }

@@ -52,4 +52,5 @@ Route.group(() => {
   Route.put('p/:id', 'CardController.editCardPos')
   Route.put('l/:id', 'CardController.addLabelToCard')
   Route.delete(':id', 'CardController.removeCard')
+  Route.get(':id', 'CardController.index')
 }).prefix('api/v1/cards').middleware('auth')
