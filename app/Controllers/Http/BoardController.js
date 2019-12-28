@@ -29,7 +29,7 @@ class BoardController {
 
       const lists = await Database
         .table('lists')
-        .where('id_board', board.id)
+        .where('id_board', board.id_board)
 
       const result = lists.map(list => ({
         ...list,
@@ -41,7 +41,7 @@ class BoardController {
       const labels = await Database
         .table('labels')
         .innerJoin('labels_boards', 'labels.id', 'labels_boards.id_label')
-        .where('id_board', board.id)
+        .where('id_board', board.id_board)
 
       const cards = await Database
         .from('cards')
@@ -56,7 +56,7 @@ class BoardController {
       const membersByBoard = await Database
         .table('users')
         .innerJoin('users_boards', 'users.id', 'users_boards.id_user')
-        .where({ id_board: board.id })
+        .where({ id_board: board.id_board })
 
       const usersIds = membersByBoard.map(item => item.id)
 
@@ -72,7 +72,14 @@ class BoardController {
       }))
 
       return response.status(200)
-        .json({ ...board, members: membersByBoard, labels, lists: result, cards: normalizeCards, usersByCards })
+        .json({
+          ...board,
+          members: membersByBoard,
+          labels,
+          lists: result,
+          cards: normalizeCards,
+          usersByCards
+        })
     } catch (error) {
       return response.status(500)
     }
@@ -119,7 +126,7 @@ class BoardController {
     }
   }
 
-  async editBackground ({ params, request, response, auth }) {
+  async editBackground ({ params, request, response }) {
     try {
       const { id } = params
       const { background } = request.only(['background'])

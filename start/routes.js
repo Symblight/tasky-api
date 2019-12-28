@@ -21,6 +21,11 @@ Route.group(() => {
   Route.delete('logout', 'UserController.logout')
 }).prefix('api/v1/user').middleware('auth')
 
+Route.group(() => {
+  Route.post('', 'UserController.initToken')
+  Route.get(':token/b/:board', 'UserController.invite')
+}).prefix('api/v1/user/token').middleware('auth')
+
 
 Route.group(() => {
   Route.post('login', 'UserController.login')
