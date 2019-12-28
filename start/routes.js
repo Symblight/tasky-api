@@ -21,6 +21,11 @@ Route.group(() => {
   Route.delete('logout', 'UserController.logout')
 }).prefix('api/v1/user').middleware('auth')
 
+Route.group(() => {
+  Route.post('', 'UserController.initToken')
+  Route.get(':token/b/:board', 'UserController.invite')
+}).prefix('api/v1/user/token').middleware('auth')
+
 
 Route.group(() => {
   Route.post('login', 'UserController.login')
@@ -52,4 +57,5 @@ Route.group(() => {
   Route.put('p/:id', 'CardController.editCardPos')
   Route.put('l/:id', 'CardController.addLabelToCard')
   Route.delete(':id', 'CardController.removeCard')
+  Route.get(':id', 'CardController.index')
 }).prefix('api/v1/cards').middleware('auth')

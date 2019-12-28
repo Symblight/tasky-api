@@ -29,7 +29,7 @@ class BoardController {
 
       const lists = await Database
         .table('lists')
-        .where('id_board', board.id)
+        .where('id_board', board.id_board)
 
       const result = lists.map(list => ({
         ...list,
@@ -41,7 +41,7 @@ class BoardController {
       const labels = await Database
         .table('labels')
         .innerJoin('labels_boards', 'labels.id', 'labels_boards.id_label')
-        .where('id_board', board.id)
+        .where('id_board', board.id_board)
 
       const cards = await Database
         .from('cards')
@@ -53,6 +53,18 @@ class BoardController {
         .from('labels_cards')
         .whereIn('id_card', [...cardIds])
 
+      const membersByBoard = await Database
+        .table('users')
+        .innerJoin('users_boards', 'users.id', 'users_boards.id_user')
+        .where({ id_board: board.id_board })
+
+      const usersIds = membersByBoard.map(item => item.id)
+
+      const usersByCards = await Database
+        .from('cards_users')
+        .whereIn('id_user', [...usersIds])
+
+
       const normalizeCards = cards.map(card => ({
         ...card,
         labels: labelsByCards.filter(idLabel => idLabel.id_card === card.id),
@@ -60,9 +72,15 @@ class BoardController {
       }))
 
       return response.status(200)
-        .json({ ...board, members: [], labels, lists: result, cards: normalizeCards })
+        .json({
+          ...board,
+          members: membersByBoard,
+          labels,
+          lists: result,
+          cards: normalizeCards,
+          usersByCards
+        })
     } catch (error) {
-      console.log(error)
       return response.status(500)
     }
   }
@@ -100,7 +118,7 @@ class BoardController {
     }
   }
 
-  async closeBoard ({ request, response, auth }) {
+  async closeBoard ({ response }) {
     try {
       return response.status(200).json({})
     } catch (e) {
@@ -108,7 +126,7 @@ class BoardController {
     }
   }
 
-  async editBackground ({ params, request, response, auth }) {
+  async editBackground ({ params, request, response }) {
     try {
       const { id } = params
       const { background } = request.only(['background'])
