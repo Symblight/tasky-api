@@ -41,6 +41,7 @@ Route.group(() => {
   Route.post('', 'BoardController.createPrivate')
   Route.get(':id', 'BoardController.select')
   Route.put('background/:id', 'BoardController.editBackground')
+  Route.delete(':id', 'BoardController.closeBoard')
 }).prefix('api/v1/board').middleware('auth')
 
 Route.group(() => {

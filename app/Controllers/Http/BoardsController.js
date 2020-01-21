@@ -72,7 +72,7 @@ class BoardsController {
       const privateBoards = await Database
         .table('boards')
         .innerJoin('users_boards', 'boards.id', 'users_boards.id_board')
-        .where({ id_user: user.id, removed: false })
+        .where({ id_user: user.id })
       return response.status(200).send(privateBoards)
     } catch (error) {
       return response.status(500).send(error)

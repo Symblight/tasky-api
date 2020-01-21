@@ -118,9 +118,13 @@ class BoardController {
     }
   }
 
-  async closeBoard ({ response }) {
+  async closeBoard ({ params, response }) {
     try {
-      return response.status(200).json({})
+      const { id } = params
+      const board = await Board.findBy('uuid', id)
+      board.removed = true
+      board.save()
+      return response.status(200).json(board)
     } catch (e) {
       return response.status(500)
     }
@@ -134,7 +138,7 @@ class BoardController {
       board.background = background
       board.save()
       broadcast(id, 'board:background', background)
-      return response.status(200).json({})
+      return response.status(200).json(board)
     } catch (e) {
       return response.status(500)
     }

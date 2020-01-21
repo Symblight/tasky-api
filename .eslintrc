@@ -21,7 +21,8 @@
     "global-require": "off",
     "arrow-parens": ["error", "as-needed"],
     "no-param-reassign": ["error", { "props": false }],
-    "no-unused-vars": ["warn"]
+    "no-unused-vars": ["warn"],
+    "linebreak-style": 0,
   },
   "globals": {
     "use": true
