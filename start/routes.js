@@ -30,6 +30,7 @@ Route.group(() => {
 Route.group(() => {
   Route.post('login', 'UserController.login')
   Route.post('signup', 'UserController.register')
+  Route.put(':id', 'UserController.edit')
 }).prefix('api/v1/user')
 
 

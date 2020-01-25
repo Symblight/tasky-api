@@ -44,12 +44,6 @@ class UserController {
     } catch (error) {
       return response.status(500).send(error)
     }
-    // await Mail.send('emails.welcome', user.toJSON(), (message) => {
-    //   message
-    //     .from('"Регистрация" <noreply@tasky.loc>')
-    //     .to(user.email)
-    //     .subject('Welcome to yardstick')
-    // })
   }
 
   async get ({ auth, response }) {
@@ -101,6 +95,21 @@ class UserController {
       }
 
       return response.status(200).send('success')
+    } catch (error) {
+      return response.status(500).send(error)
+    }
+  }
+
+  async edit ({ params, response, request }) {
+    try {
+      const { id } = params
+      const payload = request.only(['username', 'firstname', 'lastname'])
+      const user = await User.find(id)
+      user.firstname = payload.firstname
+      user.lastname = payload.lastname
+      user.username = payload.username
+      await user.save()
+      return response.status(200).send(user)
     } catch (error) {
       return response.status(500).send(error)
     }

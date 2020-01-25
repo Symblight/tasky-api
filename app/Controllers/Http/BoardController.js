@@ -46,6 +46,7 @@ class BoardController {
       const cards = await Database
         .from('cards')
         .whereIn('id_list', [...listIds])
+        .where({ removed: false })
 
       const cardIds = cards.map(card => card.id)
 

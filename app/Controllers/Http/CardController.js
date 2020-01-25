@@ -91,7 +91,7 @@ class CardController {
           pos = c.pos
           from (values
               ${where}
-          ) as c(id, pos) 
+          ) as c(id, pos)
           where c.id = cards.id`
 
         await Database.raw(QUERY)
@@ -117,12 +117,13 @@ class CardController {
   async removeCard ({ request, params, response }) {
     try {
       const { id } = params
+
       const fields = request.only(['idBoard'])
       const card = await Card.findBy('uuid', id)
-
-      await card.delete()
+      card.removed = true
+      await card.save()
       broadcast(fields.idBoard, 'board:removeCard', id)
-      return response.status(200).send('removed')
+      return response.status(200).send(card)
     } catch (e) {
       return response.status(500)
     }
