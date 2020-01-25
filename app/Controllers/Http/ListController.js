@@ -66,7 +66,7 @@ class ListController {
           pos = c.pos
           from (values
               ${where}
-          ) as c(id, pos) 
+          ) as c(id, pos)
           where c.id = lists.id`
 
         await Database.raw(QUERY)
@@ -95,7 +95,8 @@ class ListController {
       const fields = request.only(['idBoard'])
       const list = await List.findBy('uuid', id)
 
-      await list.delete()
+      list.removed = true
+      await list.save()
       broadcast(fields.idBoard, 'board:removeList', id)
       return response.status(200).send('removed')
     } catch (e) {

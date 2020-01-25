@@ -29,7 +29,7 @@ class BoardController {
 
       const lists = await Database
         .table('lists')
-        .where('id_board', board.id_board)
+        .where({ id_board: board.id_board, removed: false })
 
       const result = lists.map(list => ({
         ...list,
