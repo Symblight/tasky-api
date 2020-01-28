@@ -59,7 +59,7 @@ class BoardController {
         .innerJoin('users_boards', 'users.id', 'users_boards.id_user')
         .where({ id_board: board.id_board })
 
-      const usersIds = membersByBoard.map(item => item.id)
+      const usersIds = membersByBoard.map(item => item.id_user)
 
       const usersByCards = await Database
         .from('cards_users')

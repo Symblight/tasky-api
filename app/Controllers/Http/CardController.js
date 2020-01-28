@@ -45,7 +45,7 @@ class CardController {
       const created = await Card.find(card.id)
       created.pos = Number(created.pos)
       created.labels = []
-      created.users = members
+      created.members = members
       broadcast(fields.idBoard, 'board:newCard', created)
       return response.status(201).send(created)
     } catch (e) {
