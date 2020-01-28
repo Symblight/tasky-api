@@ -161,12 +161,21 @@ class CardController {
 
       const listIds = labelsIds.map(label => label.id_label)
 
-
       const labels = await Database
         .from('labels')
         .whereIn('id', [...listIds])
+      const usersByCards = await Database
+        .from('cards_users')
+        .where('id_card', card.id)
+
+      const usersIds = usersByCards.map(item => item.id_user)
+
+      const membersByBoard = await Database
+        .from('users')
+        .whereIn('id', [...usersIds])
+
       card.labels = labels
-      card.users = []
+      card.members = membersByBoard
       return response.status(200).send(card)
     } catch (e) {
       return response.status(500)
